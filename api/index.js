@@ -1,13 +1,14 @@
-import  Express  from 'express';
+import  express  from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 
-const app = Express();
+import authRoute from './routes/auth.js';
+
+const app = express();
+app.use(express.json());
 dotenv.config();
 
-app.get('/', (req, res)=>{
-    res.send('Popa')
-})
+app.use('/api/auth', authRoute)
 
 const connect = async () => {
     try {
