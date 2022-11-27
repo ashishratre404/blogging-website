@@ -1,59 +1,36 @@
 import './singlepost.css';
-import postImg from '../images/header.jpeg';
+import { Link, useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 export default function Singlepost() {
+    const location = useLocation();
+    const path = location.pathname.split('/')[2];
+    const [post, setPost] = useState({})
+    useEffect(()=>{
+        const getPost = async () => {
+            const res = await axios.get("http://localhost:5000/api/posts/"+path)
+            setPost(res.data);
+        }
+        getPost();
+    },[path])
     return (
         <div className='singlepost'>
             <div className='wrapper'>
-                <img src={postImg} alt='' className='singlepostImg' />
-                <h1 className='singlepostTitle'>Start your Web Development Career.
+            {post.photo && (<img src={post.photo} alt='' className='singlepostImg' />)}
+                
+                <h1 className='singlepostTitle'>{post.title}
                     <div className='editSection'>
                         <i className="singlepostIcon fab fa-facebook-square"></i>
                         <i className="singlepostIcon fab fa-twitter-square"></i>
                     </div>
                 </h1>
                 <div className='info'>
-                    <span className='authorInfo'>Author: <b>Ashish Ratre</b></span>
-                    <span className='dateInfo'>1 week ago</span>
+                    <span className='authorInfo'>Author: <Link to={`/?user=${post.username}`} className='link'><b>{post.username}</b></Link> </span>
+                    <span className='dateInfo'>{new Date(post.createdAt).toDateString()}</span>
                 </div>
                 <p className='description'>
-                    Thinking to learn website Development? Then you are at right place. You can build your website
-                    with any tech stack like:- mern stack, mean stack, view, php, etc. What you have to do is.
-                    you have to just follow this simple steps that i am going to tell you. Join our Development team
-                    to get started.Thinking to learn website Development? Then you are at right place. You can build your website
-                    with any tech stack like:- mern stack, mean stack, view, php, etc. What you have to do is.
-                    you have to just follow this simple steps that i am going to tell you. Join our Development team
-                    to get started.Thinking to learn website Development? Then you are at right place. You can build your website
-                    with any tech stack like:- mern stack, mean stack, view, php, etc. What you have to do is.
-                    you have to just follow this simple steps that i am going to tell you. Join our Development team
-                    to get started.Thinking to learn website Development? Then you are at right place. You can build your website
-                    with any tech stack like:- mern stack, mean stack, view, php, etc. What you have to do is.
-                    you have to just follow this simple steps that i am going to tell you. Join our Development team
-                    to get started.Thinking to learn website Development? Then you are at right place. You can build your website
-                    with any tech stack like:- mern stack, mean stack, view, php, etc. What you have to do is.
-                    you have to just follow this simple steps that i am going to tell you. Join our Development team
-                    to get started.
-                    Thinking to learn website Development? Then you are at right place. You can build your website
-                with any tech stack like:- mern stack, mean stack, view, php, etc. What you have to do is.
-                you have to just follow this simple steps that i am going to tell you. Join our Development team
-                to get started.<br /><br/>
-                Thinking to learn website Development? Then you are at right place. You can build your website
-                with any tech stack like:- mern stack, mean stack, view, php, etc. What you have to do is.
-                you have to just follow this simple steps that i am going to tell you. Join our Development team
-                to get started.
-                Thinking to learn website Development? Then you are at right place. You can build your website
-                with any tech stack like:- mern stack, mean stack, view, php, etc. What you have to do is.
-                you have to just follow this simple steps that i am going to tell you. Join our Development team
-                to get started.<br/><br/>
-                Thinking to learn website Development? Then you are at right place. You can build your website
-                with any tech stack like:- mern stack, mean stack, view, php, etc. What you have to do is.
-                you have to just follow this simple steps that i am going to tell you. Join our Development team
-                to get started.Thinking to learn website Development? Then you are at right place. You can build your website
-                with any tech stack like:- mern stack, mean stack, view, php, etc. What you have to do is.
-                you have to just follow this simple steps that i am going to tell you. Join our Development team
-                to get started.Thinking to learn website Development? Then you are at right place. You can build your website
-                with any tech stack like:- mern stack, mean stack, view, php, etc. What you have to do is.
-                you have to just follow this simple steps that i am going to tell you. Join our Development team
+                    {post.desc}
                 </p>
             </div>
         </div>
