@@ -3,6 +3,11 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import multer from "multer";
 import cors from "cors";
+import path from 'path';
+import {fileURLToPath} from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 import authRoute from "./routes/auth.js";
 import userRoute from "./routes/users.js";
@@ -14,6 +19,7 @@ const app = express();
 app.use(express.json());
 dotenv.config();
 app.use(cors());
+app.use("/images", express.static(path.join(__dirname, "/images")))
 
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
