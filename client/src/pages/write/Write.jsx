@@ -27,32 +27,36 @@ export default function Write() {
         await axios.post("http://localhost:5000/api/upload/", data);
       } catch (error) {}
     }
-    
+
     try {
-        const res = await axios.post("http://localhost:5000/api/posts/", newPost);
-        window.location.replace("http://localhost:5000/api/post/"+res.data._id)
-    } catch (error) {
-        
-    }
-    
+      const res = await axios.post("http://localhost:5000/api/posts/", newPost);
+      window.location.replace("/post/" + res.data._id);
+    } catch (error) {}
   };
 
   return (
     <div className="write">
-    {file && (<img className="blogImg" src={URL.createObjectURL(file)} alt="" />)}
-      
+      {file && (
+        <img className="blogImg" src={URL.createObjectURL(file)} alt="" />
+      )}
+
       <form className="writeForm" onSubmit={handleSubmit}>
         <div className="writeFormGroup">
           <label htmlFor="fileInput" className="writeIcon">
             ➕
           </label>
-          <input type="file" id="fileInput" style={{ display: "none" }} onChange={e=>setFile(e.target.files[0])} />
+          <input
+            type="file"
+            id="fileInput"
+            style={{ display: "none" }}
+            onChange={(e) => setFile(e.target.files[0])}
+          />
           <input
             type="text"
             placeholder="Title"
             className="writeTitle"
             autoFocus={true}
-            onChange={e=>setTitle(e.target.value)}
+            onChange={(e) => setTitle(e.target.value)}
           />
         </div>
         <div className="writeFormGroup">
@@ -60,10 +64,10 @@ export default function Write() {
             placeholder="Write your blog..."
             className="writeTitle writeBlog"
             type="text"
-            onChange={e=>setDesc(e.target.value)}
+            onChange={(e) => setDesc(e.target.value)}
           />
         </div>
-        <button className="submitBlog" type='submit'>
+        <button className="submitBlog" type="submit">
           Publish Blog
         </button>
       </form>
