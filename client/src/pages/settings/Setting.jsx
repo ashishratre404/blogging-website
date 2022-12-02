@@ -11,10 +11,12 @@ export default function Setting() {
   const [file, setFile] = useState(null);
   const [success, setSuccess] = useState(false);
 
-  const { user } = useContext(Context);
+  const { user, dispatch } = useContext(Context);
+  const PF = "http://localhost:5000/images/"
 
   const handleUpdate = async (e) => {
     e.preventDefault();
+    dispatch({type:"UPDATE_START"})
     const updatedUser = {
       userId: user._id,
       username,
@@ -33,9 +35,12 @@ export default function Setting() {
     }
 
     try {
-       await axios.put("http://localhost:5000/api/users/"+user._id, updatedUser);
+       const res = await axios.put("http://localhost:5000/api/users/"+user._id, updatedUser);
        setSuccess(true);
-    } catch (error) {}
+       dispatch({type:"UPDATE_SUCCESS", payload:res.data})
+    } catch (error) {
+      dispatch({type:"UPDATE_FAILURE"})
+    }
   };
 
   return (
@@ -48,7 +53,7 @@ export default function Setting() {
         <form className="settingForm" onSubmit={handleUpdate}>
           <label>Profile Picture</label>
           <div className="PP">
-            <img src={file ? URL.createObjectURL(file) : user.profilePic} alt="" />
+            <img src={file ? URL.createObjectURL(file) : PF + user.profilePic} alt="" />
             <label htmlFor="fileInput">
               <i className="PPicon far fa-user-circle"></i>
             </label>
